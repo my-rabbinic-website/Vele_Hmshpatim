@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>מאגר מאמרים ופסקי דין | הרב אלדר לוי</title>
+    <title>גנזך הפסיקה וההלכה | הרב אלדר לוי - דיין וטוען רבני</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@200;400;700;800&family=Frank+Ruhl+Libre:wght@400;700;900&family=Heebo:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@200;400;600;700;800&family=Frank+Ruhl+Libre:wght@300;400;500;700;900&family=Heebo:wght@900&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -15,7 +15,7 @@
                 extend: {
                     colors: {
                         gold: { light: '#f9f0d1', DEFAULT: '#D4AF37', dark: '#9a7f23' },
-                        dark: { DEFAULT: '#050505', light: '#0a0a0a', surface: '#111111' }
+                        archive: { DEFAULT: '#0a0806', surface: '#14110e', border: '#2a241c' }
                     },
                     fontFamily: { 
                         serif: ['Frank Ruhl Libre', 'serif'],
@@ -29,188 +29,390 @@
 
     <style>
         body { 
-            background-color: #050505; 
-            color: #f5f5f5; 
+            background-color: #0a0806; 
+            color: #ececec; 
             font-family: 'Assistant', sans-serif;
-            background-image: radial-gradient(circle at 50% -20%, #1a1a1a 0%, #050505 100%);
+            overflow-x: hidden;
         }
 
+        /* Ambient Dark Parchment Texture */
+        .ambient-texture {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: url('https://www.transparenttextures.com/patterns/old-wall.png');
+            opacity: 0.15; pointer-events: none; z-index: 0;
+        }
+
+        /* Gold Gradients & Foil Effect */
         .gold-gradient { background: linear-gradient(135deg, #D4AF37 0%, #f9f0d1 50%, #9a7f23 100%); }
-        .gold-text { background: linear-gradient(135deg, #D4AF37 0%, #f9f0d1 50%, #9a7f23 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        .article-card {
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            border: 1px solid rgba(255,255,255,0.05);
-            background: rgba(15, 15, 15, 0.6);
-            backdrop-filter: blur(10px);
+        .gold-text { 
+            background: linear-gradient(135deg, #D4AF37 0%, #f9f0d1 30%, #D4AF37 50%, #9a7f23 80%, #D4AF37 100%); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.5));
         }
         
-        .article-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(212, 175, 55, 0.3);
-            background: rgba(20, 20, 20, 0.8);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-
-        .filter-btn {
-            transition: all 0.3s ease;
+        /* The Torani "Sha'ar" Card */
+        .torani-card {
             position: relative;
+            background: linear-gradient(to bottom, rgba(20, 17, 14, 0.95), rgba(10, 8, 6, 0.98));
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+            animation: fadeInCard 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
         }
-        .filter-btn.active {
-            color: #D4AF37;
-        }
-        .filter-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            right: 0;
-            width: 100%;
-            height: 2px;
-            background: #D4AF37;
+        
+        @keyframes fadeInCard {
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* פס גלילה מעוצב */
+        /* Double Border Effect (Classic Book Cover) */
+        .torani-card::before {
+            content: ''; position: absolute; inset: 6px;
+            border: 1px solid rgba(212, 175, 55, 0.08);
+            pointer-events: none; transition: all 0.6s ease;
+        }
+
+        .torani-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(212, 175, 55, 0.5);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8), 0 0 40px rgba(212, 175, 55, 0.05) inset;
+            z-index: 10;
+        }
+        .torani-card:hover::before { border-color: rgba(212, 175, 55, 0.3); inset: 8px; }
+
+        /* The Bookmark Ribbon */
+        .bookmark-ribbon {
+            position: absolute; top: 0; left: 30px; width: 24px; height: 40px;
+            background: linear-gradient(to bottom, #9a7f23, #D4AF37);
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.5); z-index: 10;
+        }
+        .bookmark-ribbon::after {
+            content: ''; position: absolute; bottom: -12px; left: 0;
+            border-left: 12px solid #D4AF37; border-right: 12px solid #D4AF37;
+            border-bottom: 12px solid transparent;
+        }
+
+        /* Filter Tabs (Index style) */
+        .index-tab {
+            position: relative; padding: 10px 24px; color: rgba(255,255,255,0.5);
+            font-weight: 700; transition: all 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .index-tab:hover { color: #f9f0d1; }
+        .index-tab.active {
+            color: #D4AF37; border-bottom: 2px solid #D4AF37;
+            background: linear-gradient(to top, rgba(212,175,55,0.1), transparent);
+        }
+
+        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #050505; }
-        ::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; }
+        ::-webkit-scrollbar-track { background: #0a0806; }
+        ::-webkit-scrollbar-thumb { background: #3a3022; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
+
+        /* Torani Ornament */
+        .ornament { color: rgba(212, 175, 55, 0.3); font-size: 1.2rem; margin: 0 15px; }
+
+        /* Glow effects */
+        .hero-glow {
+            position: absolute; top: -20%; left: 50%; transform: translateX(-50%);
+            width: 80vw; height: 60vh; background: radial-gradient(circle, rgba(212,175,55,0.08) 0%, transparent 60%);
+            pointer-events: none; z-index: 0;
+            animation: pulseGlow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            from { opacity: 0.6; transform: translateX(-50%) scale(0.95); }
+            to { opacity: 1; transform: translateX(-50%) scale(1.05); }
+        }
     </style>
 </head>
-<body class="min-h-screen">
+<body class="min-h-screen selection:bg-gold/30">
+
+    <div class="ambient-texture"></div>
 
     <!-- Header Navigation -->
-    <header class="fixed w-full z-50 bg-dark/80 backdrop-blur-xl border-b border-white/5 py-4 px-8">
-        <div class="container mx-auto flex justify-between items-center">
-            <a href="index.html" class="flex items-center gap-3">
-                <div class="w-10 h-10 gold-gradient rounded-lg flex items-center justify-center text-dark font-black">AL</div>
-                <span class="font-bold tracking-tighter text-xl">הרב אלדר לוי</span>
+    <header class="fixed w-full z-50 bg-archive/90 backdrop-blur-xl border-b border-white/5 py-4 px-6 md:px-10 transition-all shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
+        <div class="container mx-auto flex justify-between items-center relative z-10">
+            <a href="index.html" class="flex items-center gap-4 group">
+                <div class="w-10 h-10 rounded-sm border border-gold/30 flex items-center justify-center text-gold group-hover:bg-gold/10 transition-all shadow-[0_0_10px_rgba(212,175,55,0.1)]">
+                    <i class="fas fa-balance-scale-right text-sm"></i>
+                </div>
+                <div>
+                    <span class="font-black tracking-tighter text-xl block leading-none">הרב אלדר לוי</span>
+                    <span class="text-[9px] text-gold tracking-[0.2em] uppercase font-bold">דיין וטוען רבני</span>
+                </div>
             </a>
-            <nav class="hidden md:flex gap-8 text-[10px] font-black tracking-widest uppercase opacity-60">
-                <a href="index.html" class="hover:text-gold transition-colors">בית</a>
-                <a href="#" class="text-gold">מאגר המאמרים</a>
-                <a href="index.html#contact" class="hover:text-gold transition-colors">ייעוץ אישי</a>
-            </nav>
+            
+            <div class="hidden md:flex items-center gap-8">
+                <nav class="flex gap-8 text-[11px] font-bold tracking-widest uppercase text-white/50">
+                    <a href="index.html" class="hover:text-gold transition-colors">חזרה לשער</a>
+                    <a href="#" class="text-gold border-b border-gold pb-1">גנזך הפסיקה</a>
+                    <a href="index.html#contact" class="hover:text-gold transition-colors">פנייה לבית הדין</a>
+                </nav>
+                <div class="w-px h-4 bg-white/10"></div>
+                <div class="text-[10px] font-bold text-white/30 tracking-widest">בס"ד</div>
+            </div>
+
+            <!-- Mobile BS"D -->
+            <div class="md:hidden text-[10px] font-bold text-white/30 tracking-widest">בס"ד</div>
         </div>
     </header>
 
-    <main class="pt-32 pb-20 px-6">
-        <div class="container mx-auto max-w-6xl">
+    <main class="relative z-10 pt-36 pb-24 px-6">
+        <div class="hero-glow"></div>
+        
+        <div class="container mx-auto max-w-6xl relative z-10">
             
-            <!-- Hero Title -->
-            <div class="text-center mb-20">
-                <h1 class="text-5xl md:text-7xl font-heading font-black mb-6">ספריית <span class="gold-text">הגות ופסיקה</span></h1>
-                <p class="text-white/50 text-xl max-w-2xl mx-auto font-light italic">
-                    בירורי הלכה מעמיקים, פסקי דין רבניים ומאמרי מחשבה מפרי עטו של הרב אלדר לוי
+            <!-- Hero Title (Classic Sha'ar Style) -->
+            <div class="text-center mb-20 relative">
+                <div class="flex items-center justify-center mb-6">
+                    <div class="h-[1px] w-16 bg-gradient-to-r from-transparent to-gold/50"></div>
+                    <span class="ornament">❦</span>
+                    <p class="text-gold/80 text-sm font-serif italic font-medium">"וְאֵלֶּה הַמִּשְׁפָּטִים אֲשֶׁר תָּשִׂים לִפְנֵיהֶם"</p>
+                    <span class="ornament">❦</span>
+                    <div class="h-[1px] w-16 bg-gradient-to-l from-transparent to-gold/50"></div>
+                </div>
+                
+                <h1 class="text-6xl md:text-8xl font-serif font-black mb-8 leading-tight tracking-tight text-white drop-shadow-2xl">
+                    גנזך <span class="gold-text">הפסיקה</span> וההלכה
+                </h1>
+                <p class="text-white/60 text-lg md:text-xl max-w-3xl mx-auto font-light leading-relaxed">
+                    מאגר מקיף של פסקי דין רבניים, בירורי הלכה מעמיקים באבן העזר וחושן משפט, ומאמרי הגות ומשפט מפרי עטו של הרב אלדר לוי.
                 </p>
             </div>
 
-            <!-- Search & Filters -->
-            <div class="flex flex-col md:flex-row gap-8 justify-between items-center mb-12 py-6 border-y border-white/5">
-                <div class="flex gap-6 overflow-x-auto pb-2 w-full md:w-auto text-sm font-bold tracking-wide no-scrollbar">
-                    <button class="filter-btn active whitespace-nowrap" data-filter="all">כל המאמרים</button>
-                    <button class="filter-btn whitespace-nowrap opacity-40 hover:opacity-100" data-filter="even-haezer">אבן העזר</button>
-                    <button class="filter-btn whitespace-nowrap opacity-40 hover:opacity-100" data-filter="choshen-mishpat">חושן משפט</button>
-                    <button class="filter-btn whitespace-nowrap opacity-40 hover:opacity-100" data-filter="thought">הגות ומחשבה</button>
+            <!-- Search & Index Filters -->
+            <div class="bg-archive-surface border border-archive-border rounded-2xl p-4 md:p-6 mb-12 shadow-2xl flex flex-col lg:flex-row gap-6 justify-between items-center relative z-20">
+                
+                <!-- Index Tabs -->
+                <div class="flex gap-2 overflow-x-auto w-full lg:w-auto text-sm tracking-wide no-scrollbar pb-2 lg:pb-0">
+                    <button class="index-tab active whitespace-nowrap" data-filter="all">כל המפתחות</button>
+                    <div class="w-px h-6 bg-white/5 my-auto mx-2 hidden md:block"></div>
+                    <button class="index-tab whitespace-nowrap" data-filter="even-haezer">אבן העזר</button>
+                    <button class="index-tab whitespace-nowrap" data-filter="choshen-mishpat">חושן משפט</button>
+                    <button class="index-tab whitespace-nowrap" data-filter="thought">פרקי הגות</button>
                 </div>
                 
-                <div class="relative w-full md:w-64">
-                    <i class="fas fa-search absolute right-4 top-1/2 -translate-y-1/2 text-white/20"></i>
-                    <input type="text" placeholder="חיפוש במאגר..." class="w-full bg-white/5 border border-white/10 rounded-full py-3 pr-12 pl-4 focus:outline-none focus:border-gold/50 transition-all text-sm">
+                <!-- Active Search Bar -->
+                <div class="relative w-full lg:w-96 group">
+                    <div class="absolute inset-0 bg-gold/5 rounded-full blur transition-all group-hover:bg-gold/10"></div>
+                    <input type="text" id="searchInput" placeholder="חיפוש חופשי בסימנים ופסיקות..." 
+                           class="relative w-full bg-[#050403] border border-gold/30 rounded-full py-3.5 pr-14 pl-6 focus:outline-none focus:border-gold transition-all text-sm text-white placeholder-white/40 shadow-inner">
+                    <i class="fas fa-search absolute right-5 top-1/2 -translate-y-1/2 text-gold/50 group-hover:text-gold transition-colors"></i>
                 </div>
             </div>
 
-            <!-- Grid -->
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Results Counter (Dynamic) -->
+            <div class="flex justify-between items-center mb-8 px-2">
+                <div class="h-px bg-gradient-to-l from-gold/30 to-transparent flex-grow"></div>
+                <div id="resultsCounter" class="text-xs font-bold tracking-widest text-gold/60 uppercase px-6">
+                    מוצגים 3 סימנים מתוך הגנזך
+                </div>
+                <div class="h-px bg-gradient-to-r from-gold/30 to-transparent flex-grow"></div>
+            </div>
+
+            <!-- Zero Results Message (Hidden by default) -->
+            <div id="noResultsMsg" class="hidden text-center py-20">
+                <i class="fas fa-search-minus text-4xl text-white/20 mb-4"></i>
+                <h3 class="text-xl font-bold text-white/50 font-serif">לא נמצאו סימנים התואמים לחיפוש</h3>
+                <p class="text-white/30 text-sm mt-2">נסה לחפש במילים אחרות או להסיר את הסינון</p>
+            </div>
+
+            <!-- The Rulings Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10" id="articlesGrid">
                 
-                <!-- Card 1 -->
-                <a href="https://my-rabbinic-website.github.io/Vele_2/" class="article-card rounded-[2.5rem] p-8 flex flex-col group h-full" data-category="even-haezer">
-                    <div class="flex justify-between items-start mb-8">
-                        <span class="text-[10px] font-black uppercase tracking-[0.2em] text-gold py-1 px-3 border border-gold/30 rounded-full bg-gold/5">סימן א' - אבן העזר</span>
-                        <span class="text-white/20 text-xs font-bold">תשפ"ד</span>
+                <!-- Card 1 (Featured/Even Haezer) -->
+                <a href="article.html" target="_blank" class="torani-card rounded-2xl p-10 flex flex-col group h-full cursor-pointer" data-category="even-haezer" style="animation-delay: 0.1s;">
+                    <div class="bookmark-ribbon"></div>
+                    
+                    <div class="flex justify-between items-center mb-8 relative z-10 pt-2">
+                        <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-black py-1.5 px-4 bg-gold rounded-sm shadow-[0_0_15px_rgba(212,175,55,0.3)]">
+                            סימן א' • אבן העזר
+                        </span>
                     </div>
-                    <h3 class="font-serif text-3xl font-bold leading-tight mb-4 group-hover:text-gold transition-colors">חלוקת זכויות פנסיוניות ואיזון משאבים</h3>
-                    <p class="text-white/40 text-sm leading-relaxed mb-8 flex-grow">
-                        בירור מקיף בגדרי 'סיטומתא' ו'מנהג המדינה' בענייני ממון בין בני זוג, האם כושר השתכרות נחשב כנכס בר איזון על פי דין תורה?
+                    
+                    <h3 class="article-title font-serif text-3xl font-bold leading-tight mb-5 group-hover:text-gold transition-colors text-white">
+                        חלוקת זכויות פנסיוניות ואיזון משאבים
+                    </h3>
+                    
+                    <p class="article-desc text-white/50 text-sm leading-relaxed mb-8 flex-grow font-light text-justify">
+                        בירור מקיף בגדרי 'סיטומתא' ו'מנהג המדינה' בענייני ממון בין בני זוג. האם כושר השתכרות ומוניטין נחשבים כנכס בר איזון על פי דין תורה ופסיקת בית הדין הגדול?
                     </p>
-                    <div class="flex items-center justify-between mt-auto pt-6 border-t border-white/5">
-                        <span class="text-[10px] font-black tracking-widest uppercase opacity-40">12 דקות קריאה</span>
-                        <i class="fas fa-arrow-left text-gold translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all"></i>
+                    
+                    <div class="flex items-center justify-between mt-auto pt-6 border-t border-white/10 relative z-10">
+                        <div class="flex flex-col">
+                            <span class="text-gold text-xs font-bold mb-1">ניסן תשפ"ד</span>
+                            <span class="text-[10px] font-bold tracking-widest uppercase opacity-40">עיון מעמיק</span>
+                        </div>
+                        <div class="w-10 h-10 rounded-full border border-gold/20 flex items-center justify-center group-hover:bg-gold group-hover:border-gold transition-all">
+                            <i class="fas fa-book-reader text-gold group-hover:text-black transition-colors"></i>
+                        </div>
                     </div>
                 </a>
 
-                <!-- Card 2 -->
-                <div class="article-card rounded-[2.5rem] p-8 flex flex-col group h-full opacity-70" data-category="choshen-mishpat">
-                    <div class="flex justify-between items-start mb-8">
-                        <span class="text-[10px] font-black uppercase tracking-[0.2em] text-gold py-1 px-3 border border-gold/30 rounded-full bg-gold/5">סימן ב' - חושן משפט</span>
-                        <span class="text-white/20 text-xs font-bold">תשפ"ג</span>
+                <!-- Card 2 (Choshen Mishpat) -->
+                <a href="#" target="_blank" class="torani-card rounded-2xl p-10 flex flex-col group h-full cursor-pointer" data-category="choshen-mishpat" style="animation-delay: 0.2s;">
+                    <div class="flex justify-between items-center mb-8 relative z-10 pt-2">
+                        <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-gold py-1.5 px-4 border border-gold/30 rounded-sm bg-black/50">
+                            סימן ב' • חושן משפט
+                        </span>
                     </div>
-                    <h3 class="font-serif text-3xl font-bold leading-tight mb-4 group-hover:text-gold transition-colors">בוררות עסקית בעידן הדיגיטלי</h3>
-                    <p class="text-white/40 text-sm leading-relaxed mb-8 flex-grow">
-                        מעמדם של מטבעות קריפטוגרפיים וחוזים חכמים במשפט העברי. האם יש להם דין של 'כסף' או 'שטר' וכיצד מכריעים בסכסוכי מסחר וירטואליים.
+                    
+                    <h3 class="article-title font-serif text-3xl font-bold leading-tight mb-5 group-hover:text-gold transition-colors text-white">
+                        תוקפם של חוזים חכמים במשפט העברי
+                    </h3>
+                    
+                    <p class="article-desc text-white/50 text-sm leading-relaxed mb-8 flex-grow font-light text-justify">
+                        מעמדם של מטבעות קריפטוגרפיים, חתימות דיגיטליות וחוזים וירטואליים במשפט העברי. האם יש להם דין של 'כסף' או 'שטר' וכיצד מכריעים בסכסוכי מסחר בעידן המודרני.
                     </p>
-                    <div class="flex items-center justify-between mt-auto pt-6 border-t border-white/5">
-                        <span class="text-[10px] font-black tracking-widest uppercase opacity-40">קרוב למאגר</span>
-                        <i class="fas fa-lock text-white/20"></i>
+                    
+                    <div class="flex items-center justify-between mt-auto pt-6 border-t border-white/10 relative z-10">
+                        <div class="flex flex-col">
+                            <span class="text-gold text-xs font-bold mb-1">טבת תשפ"ג</span>
+                            <span class="text-[10px] font-bold tracking-widest uppercase opacity-40">פסק בוררות</span>
+                        </div>
+                        <div class="w-10 h-10 rounded-full border border-gold/20 flex items-center justify-center group-hover:bg-gold group-hover:border-gold transition-all">
+                            <i class="fas fa-book-reader text-gold group-hover:text-black transition-colors"></i>
+                        </div>
                     </div>
-                </div>
+                </a>
 
-                <!-- Card 3 -->
-                <div class="article-card rounded-[2.5rem] p-8 flex flex-col group h-full" data-category="thought">
-                    <div class="flex justify-between items-start mb-8">
-                        <span class="text-[10px] font-black uppercase tracking-[0.2em] text-gold py-1 px-3 border border-gold/30 rounded-full bg-gold/5">פרקי הגות</span>
-                        <span class="text-white/20 text-xs font-bold">תשפ"ד</span>
+                <!-- Card 3 (Thought / Hashkafa) -->
+                <a href="#" target="_blank" class="torani-card rounded-2xl p-10 flex flex-col group h-full cursor-pointer" data-category="thought" style="animation-delay: 0.3s;">
+                    <div class="flex justify-between items-center mb-8 relative z-10 pt-2">
+                        <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-white/70 py-1.5 px-4 border border-white/20 rounded-sm bg-white/5">
+                            פרקי הגות ומחשבה
+                        </span>
                     </div>
-                    <h3 class="font-serif text-3xl font-bold leading-tight mb-4 group-hover:text-gold transition-colors">אסטרטגיה ומוסר בניהול תיק רבני</h3>
-                    <p class="text-white/40 text-sm leading-relaxed mb-8 flex-grow">
-                        על השילוב שבין חובת הייצוג לבין השמירה על כבוד המשפחה היהודית. מאמר העוסק באתיקה המקצועית של הטוען הרבני.
+                    
+                    <h3 class="article-title font-serif text-3xl font-bold leading-tight mb-5 group-hover:text-white transition-colors text-gold">
+                        אסטרטגיה, הלכה ומוסר בניהול תיק רבני
+                    </h3>
+                    
+                    <p class="article-desc text-white/50 text-sm leading-relaxed mb-8 flex-grow font-light text-justify">
+                        על השילוב העדין שבין חובת הייצוג והנאמנות ללקוח לבין השמירה על כבוד המשפחה היהודית ומניעת הרס מיותר. מאמר העוסק במידות ובאתיקה המקצועית של הטוען הרבני.
                     </p>
-                    <div class="flex items-center justify-between mt-auto pt-6 border-t border-white/5">
-                        <span class="text-[10px] font-black tracking-widest uppercase opacity-40">8 דקות קריאה</span>
-                        <i class="fas fa-arrow-left text-gold translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all"></i>
+                    
+                    <div class="flex items-center justify-between mt-auto pt-6 border-t border-white/10 relative z-10">
+                        <div class="flex flex-col">
+                            <span class="text-gold text-xs font-bold mb-1">אלול תשפ"ג</span>
+                            <span class="text-[10px] font-bold tracking-widest uppercase opacity-40">מאמר השקפה</span>
+                        </div>
+                        <div class="w-10 h-10 rounded-full border border-gold/20 flex items-center justify-center group-hover:bg-gold group-hover:border-gold transition-all">
+                            <i class="fas fa-book-reader text-gold group-hover:text-black transition-colors"></i>
+                        </div>
                     </div>
-                </div>
+                </a>
 
-                <!-- Card 4 - Placeholder for more items -->
-                <div class="article-card rounded-[2.5rem] p-8 flex flex-col group items-center justify-center border-dashed border-white/10 opacity-30 hover:opacity-50 cursor-default">
-                    <i class="fas fa-book-open text-4xl mb-4 text-gold/50"></i>
-                    <span class="text-sm font-bold uppercase tracking-widest">מאמרים נוספים בתהליכי עריכה</span>
+                <!-- Card 4 (Placeholder) -->
+                <div class="torani-card rounded-2xl p-10 flex flex-col group items-center justify-center text-center opacity-40 hover:opacity-70 cursor-default border-dashed border-white/20" data-category="all" style="animation-delay: 0.4s;">
+                    <div class="w-16 h-16 rounded-full border border-gold/30 flex items-center justify-center mb-6 bg-black/50">
+                        <i class="fas fa-pen-nib text-2xl text-gold/50"></i>
+                    </div>
+                    <h3 class="article-title font-serif text-2xl font-bold text-white mb-2">מאמרים ופסקי דין נוספים</h3>
+                    <p class="article-desc text-sm text-white/50">נמצאים כעת בתהליכי עריכה והגהה לקראת פרסומם בגנזך.</p>
                 </div>
 
             </div>
+            
+            <!-- Load More Button -->
+            <div class="mt-20 text-center">
+                <button class="inline-flex items-center gap-4 px-10 py-4 rounded-full border border-gold/30 text-gold font-bold hover:bg-gold hover:text-black transition-all group shadow-[0_0_20px_rgba(212,175,55,0.1)]">
+                    <i class="fas fa-chevron-down group-hover:animate-bounce"></i>
+                    <span>טען סימנים נוספים</span>
+                </button>
+            </div>
+
         </div>
     </main>
 
     <!-- Footer -->
-    <footer class="py-12 border-t border-white/5 text-center">
-        <p class="text-[10px] text-white/20 font-black tracking-[0.5em] uppercase italic">The Librarian of Law</p>
+    <footer class="py-16 border-t border-archive-border bg-archive relative z-10 text-center mt-10">
+        <div class="container mx-auto px-6">
+            <div class="mb-8 opacity-40">
+                <span class="ornament">❦</span>
+            </div>
+            <p class="text-[10px] text-white/30 font-black tracking-[0.5em] uppercase mb-4">
+                כל הזכויות שמורות © הרב אלדר לוי - דיין מוסמך ידין ידין
+            </p>
+            <p class="text-xs text-white/20 font-serif italic max-w-lg mx-auto leading-relaxed">
+                המאמרים המפורסמים במאגר זה נועדו להעשרה ועיון תורני בלבד, ואינם מהווים תחליף לייעוץ משפטי או לפסיקת הלכה למעשה בתיק פרטני.
+            </p>
+        </div>
     </footer>
 
     <script>
-        // לוגיקת סינון פשוטה (Side Script)
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const cards = document.querySelectorAll('.article-card');
+        // --- מערכת חיפוש וסינון חכמה ---
+        const filterBtns = document.querySelectorAll('.index-tab');
+        const cards = document.querySelectorAll('.torani-card');
+        const searchInput = document.getElementById('searchInput');
+        const resultsCounter = document.getElementById('resultsCounter');
+        const noResultsMsg = document.getElementById('noResultsMsg');
+        let activeFilter = 'all';
 
+        // פונקציה ראשית לעדכון התצוגה (משלבת חיפוש מילולי + סינון קטגוריות)
+        function updateGallery() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const title = card.querySelector('.article-title').innerText.toLowerCase();
+                const desc = card.querySelector('.article-desc').innerText.toLowerCase();
+                const category = card.getAttribute('data-category');
+                const isPlaceholder = card.classList.contains('cursor-default');
+
+                // תנאי הצגה: האם עומד בסינון הקטגוריה? וגם האם עומד בחיפוש?
+                const matchesFilter = activeFilter === 'all' || category === activeFilter;
+                const matchesSearch = title.includes(searchTerm) || desc.includes(searchTerm);
+
+                // שומר על כרטיסיית הפלייסבולדר אם אין חיפוש ואין סינון ספציפי (או אם הסינון הוא ALL)
+                const showPlaceholder = isPlaceholder && searchTerm === '' && (activeFilter === 'all');
+
+                if (matchesFilter && (matchesSearch || showPlaceholder)) {
+                    card.style.display = 'flex';
+                    // השהייה קטנה לאנימציית כניסה יפה
+                    setTimeout(() => {
+                        card.style.opacity = isPlaceholder ? '0.4' : '1';
+                        card.style.transform = 'scale(1) translateY(0)';
+                    }, 50);
+                    if(!isPlaceholder) visibleCount++; // לא סופר את הפלייסבולדר
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'scale(0.95) translateY(10px)';
+                    setTimeout(() => card.style.display = 'none', 400); // מתאים לזמן הטרנזישן
+                }
+            });
+
+            // עדכון המונה הדינמי והודעת אין תוצאות
+            setTimeout(() => {
+                if(visibleCount > 0) {
+                    resultsCounter.innerText = `מוצגים ${visibleCount} סימנים מתוך הגנזך`;
+                    noResultsMsg.classList.add('hidden');
+                } else if(searchTerm !== '' || activeFilter !== 'all') {
+                    resultsCounter.innerText = `לא נמצאו תוצאות`;
+                    noResultsMsg.classList.remove('hidden');
+                } else {
+                    resultsCounter.innerText = `מוצגים כל הסימנים בגנזך`;
+                    noResultsMsg.classList.add('hidden');
+                }
+            }, 400);
+        }
+
+        // האזנה ללחיצות על כפתורי הסינון
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                // עדכון כפתור פעיל
-                filterBtns.forEach(b => b.classList.remove('active', 'opacity-100'));
-                filterBtns.forEach(b => b.classList.add('opacity-40'));
-                btn.classList.add('active', 'opacity-100');
-                btn.classList.remove('opacity-40');
-
-                const filter = btn.getAttribute('data-filter');
-                
-                cards.forEach(card => {
-                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
-                        card.style.display = 'flex';
-                        setTimeout(() => card.style.opacity = '1', 10);
-                    } else {
-                        card.style.opacity = '0';
-                        setTimeout(() => card.style.display = 'none', 300);
-                    }
-                });
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeFilter = btn.getAttribute('data-filter');
+                updateGallery();
             });
         });
+
+        // האזנה להקלדה בשורת החיפוש
+        searchInput.addEventListener('input', updateGallery);
     </script>
 </body>
 </html>
