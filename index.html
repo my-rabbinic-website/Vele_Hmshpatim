@@ -35,11 +35,23 @@
             overflow-x: hidden;
         }
 
-        /* Ambient Dark Parchment Texture */
+        /* Ambient Dark Parchment Texture & Gold Dust */
         .ambient-texture {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background-image: url('https://www.transparenttextures.com/patterns/old-wall.png');
             opacity: 0.15; pointer-events: none; z-index: 0;
+        }
+        
+        .gold-dust {
+            position: fixed; inset: 0; pointer-events: none; z-index: 0;
+            background-image: radial-gradient(circle, rgba(212, 175, 55, 0.4) 1px, transparent 1px);
+            background-size: 80px 80px;
+            opacity: 0.15;
+            animation: drift 40s linear infinite;
+        }
+        @keyframes drift {
+            0% { background-position: 0 0; }
+            100% { background-position: 80px 80px; }
         }
 
         /* Gold Gradients & Foil Effect */
@@ -56,7 +68,7 @@
             position: relative;
             background: linear-gradient(to bottom, rgba(20, 17, 14, 0.95), rgba(10, 8, 6, 0.98));
             border: 1px solid rgba(212, 175, 55, 0.15);
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             overflow: hidden;
             animation: fadeInCard 0.8s ease-out forwards;
             opacity: 0;
@@ -67,7 +79,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Double Border Effect (Classic Book Cover) */
         .torani-card::before {
             content: ''; position: absolute; inset: 6px;
             border: 1px solid rgba(212, 175, 55, 0.08);
@@ -75,14 +86,13 @@
         }
 
         .torani-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-8px);
             border-color: rgba(212, 175, 55, 0.5);
             box-shadow: 0 25px 50px rgba(0,0,0,0.8), 0 0 40px rgba(212, 175, 55, 0.05) inset;
             z-index: 10;
         }
         .torani-card:hover::before { border-color: rgba(212, 175, 55, 0.3); inset: 8px; }
 
-        /* The Bookmark Ribbon */
         .bookmark-ribbon {
             position: absolute; top: 0; left: 30px; width: 24px; height: 40px;
             background: linear-gradient(to bottom, #9a7f23, #D4AF37);
@@ -94,7 +104,7 @@
             border-bottom: 12px solid transparent;
         }
 
-        /* Filter Tabs (Index style) */
+        /* Filter Tabs */
         .index-tab {
             position: relative; padding: 10px 24px; color: rgba(255,255,255,0.5);
             font-weight: 700; transition: all 0.3s;
@@ -112,26 +122,54 @@
         ::-webkit-scrollbar-thumb { background: #3a3022; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
 
-        /* Torani Ornament */
         .ornament { color: rgba(212, 175, 55, 0.3); font-size: 1.2rem; margin: 0 15px; }
 
-        /* Glow effects */
         .hero-glow {
             position: absolute; top: -20%; left: 50%; transform: translateX(-50%);
             width: 80vw; height: 60vh; background: radial-gradient(circle, rgba(212,175,55,0.08) 0%, transparent 60%);
             pointer-events: none; z-index: 0;
             animation: pulseGlow 4s ease-in-out infinite alternate;
         }
-
         @keyframes pulseGlow {
             from { opacity: 0.6; transform: translateX(-50%) scale(0.95); }
             to { opacity: 1; transform: translateX(-50%) scale(1.05); }
+        }
+
+        /* -------------------------------------------
+           LIST VIEW STYLES (התצוגה החדשה)
+           ------------------------------------------- */
+        .list-view { display: flex !important; flex-direction: column; gap: 1rem !important; }
+        
+        .list-view .torani-card { 
+            flex-direction: row; 
+            align-items: center; 
+            padding: 1.2rem 2.5rem; 
+            gap: 2rem; 
+            transform: none !important;
+        }
+        
+        .list-view .torani-card:hover { transform: translateX(-5px) !important; }
+        .list-view .bookmark-ribbon { display: none; }
+        .list-view .article-desc { display: none; } /* מסתיר תקציר כדי לחסוך מקום */
+        .list-view .article-badge { margin-bottom: 0 !important; width: 150px; flex-shrink: 0; }
+        .list-view h3 { font-size: 1.6rem !important; margin-bottom: 0 !important; flex-grow: 1; }
+        
+        .list-view .card-meta { 
+            border-top: none; padding-top: 0; margin-top: 0; 
+            width: auto; flex-shrink: 0; justify-content: flex-end; gap: 2rem;
+        }
+
+        @media (max-width: 1024px) {
+            .list-view .torani-card { flex-direction: column; align-items: flex-start; gap: 1rem; padding: 1.5rem; }
+            .list-view .article-badge { width: auto; }
+            .list-view .card-meta { width: 100%; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1rem; justify-content: space-between; }
         }
     </style>
 </head>
 <body class="min-h-screen selection:bg-gold/30">
 
     <div class="ambient-texture"></div>
+    <div class="gold-dust"></div>
 
     <!-- Header Navigation -->
     <header class="fixed w-full z-50 bg-archive/90 backdrop-blur-xl border-b border-white/5 py-4 px-6 md:px-10 transition-all shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
@@ -156,7 +194,6 @@
                 <div class="text-[10px] font-bold text-white/30 tracking-widest">בס"ד</div>
             </div>
 
-            <!-- Mobile BS"D -->
             <div class="md:hidden text-[10px] font-bold text-white/30 tracking-widest">בס"ד</div>
         </div>
     </header>
@@ -166,7 +203,7 @@
         
         <div class="container mx-auto max-w-6xl relative z-10">
             
-            <!-- Hero Title (Classic Sha'ar Style) -->
+            <!-- Hero Title -->
             <div class="text-center mb-20 relative">
                 <div class="flex items-center justify-center mb-6">
                     <div class="h-[1px] w-16 bg-gradient-to-r from-transparent to-gold/50"></div>
@@ -184,7 +221,7 @@
                 </p>
             </div>
 
-            <!-- Search & Index Filters -->
+            <!-- Search, Filters & View Toggle -->
             <div class="bg-archive-surface border border-archive-border rounded-2xl p-4 md:p-6 mb-12 shadow-2xl flex flex-col lg:flex-row gap-6 justify-between items-center relative z-20">
                 
                 <!-- Index Tabs -->
@@ -196,12 +233,23 @@
                     <button class="index-tab whitespace-nowrap" data-filter="thought">פרקי הגות</button>
                 </div>
                 
-                <!-- Active Search Bar -->
-                <div class="relative w-full lg:w-96 group">
-                    <div class="absolute inset-0 bg-gold/5 rounded-full blur transition-all group-hover:bg-gold/10"></div>
-                    <input type="text" id="searchInput" placeholder="חיפוש חופשי בסימנים ופסיקות..." 
-                           class="relative w-full bg-[#050403] border border-gold/30 rounded-full py-3.5 pr-14 pl-6 focus:outline-none focus:border-gold transition-all text-sm text-white placeholder-white/40 shadow-inner">
-                    <i class="fas fa-search absolute right-5 top-1/2 -translate-y-1/2 text-gold/50 group-hover:text-gold transition-colors"></i>
+                <!-- View Toggles & Search Bar -->
+                <div class="flex items-center w-full lg:w-auto gap-4">
+                    
+                    <!-- View Toggles (Desktop Only) -->
+                    <div class="hidden md:flex items-center gap-3 border-l border-white/10 pl-4">
+                        <button id="listViewBtn" class="text-white/30 hover:text-gold transition-colors" title="תצוגת רשימה (קריאה מהירה)"><i class="fas fa-list"></i></button>
+                        <button id="gridViewBtn" class="text-gold opacity-100 hover:text-gold transition-colors" title="תצוגת כרטיסיות מורחבת"><i class="fas fa-th-large"></i></button>
+                    </div>
+
+                    <!-- Active Search Bar -->
+                    <div class="relative w-full lg:w-80 group">
+                        <div class="absolute inset-0 bg-gold/5 rounded-full blur transition-all group-hover:bg-gold/10"></div>
+                        <input type="text" id="searchInput" placeholder="חיפוש חופשי בסימנים ופסיקות..." 
+                               class="relative w-full bg-[#050403] border border-gold/30 rounded-full py-3.5 pr-14 pl-10 focus:outline-none focus:border-gold transition-all text-sm text-white placeholder-white/40 shadow-inner">
+                        <i class="fas fa-search absolute right-5 top-1/2 -translate-y-1/2 text-gold/50 group-hover:text-gold transition-colors"></i>
+                        <i id="clearSearch" class="fas fa-times absolute left-4 top-1/2 -translate-y-1/2 text-white/20 hover:text-white/80 cursor-pointer transition-colors hidden" title="נקה חיפוש"></i>
+                    </div>
                 </div>
             </div>
 
@@ -214,21 +262,25 @@
                 <div class="h-px bg-gradient-to-r from-gold/30 to-transparent flex-grow"></div>
             </div>
 
-            <!-- Zero Results Message (Hidden by default) -->
+            <!-- Zero Results Message -->
             <div id="noResultsMsg" class="hidden text-center py-20">
                 <i class="fas fa-search-minus text-4xl text-white/20 mb-4"></i>
                 <h3 class="text-xl font-bold text-white/50 font-serif">לא נמצאו סימנים התואמים לחיפוש</h3>
                 <p class="text-white/30 text-sm mt-2">נסה לחפש במילים אחרות או להסיר את הסינון</p>
             </div>
 
-            <!-- The Rulings Grid -->
+            <!-- The Rulings Grid/List -->
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10" id="articlesGrid">
                 
-                <!-- Card 1 (Featured/Even Haezer) -->
+                <!-- Card 1 (Featured) -->
                 <a href="article.html" target="_blank" class="torani-card rounded-2xl p-10 flex flex-col group h-full cursor-pointer" data-category="even-haezer" style="animation-delay: 0.1s;">
+                    <!-- "New" Badge -->
+                    <div class="absolute top-0 right-0 bg-gradient-to-l from-gold to-[#9a7f23] text-black px-3 py-1.5 text-[9px] font-black tracking-widest uppercase rounded-bl-xl z-20 shadow-lg">
+                        חדש בגנזך
+                    </div>
                     <div class="bookmark-ribbon"></div>
                     
-                    <div class="flex justify-between items-center mb-8 relative z-10 pt-2">
+                    <div class="article-badge flex justify-between items-center mb-8 relative z-10 pt-2">
                         <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-black py-1.5 px-4 bg-gold rounded-sm shadow-[0_0_15px_rgba(212,175,55,0.3)]">
                             סימן א' • אבן העזר
                         </span>
@@ -242,7 +294,7 @@
                         בירור מקיף בגדרי 'סיטומתא' ו'מנהג המדינה' בענייני ממון בין בני זוג. האם כושר השתכרות ומוניטין נחשבים כנכס בר איזון על פי דין תורה ופסיקת בית הדין הגדול?
                     </p>
                     
-                    <div class="flex items-center justify-between mt-auto pt-6 border-t border-white/10 relative z-10">
+                    <div class="card-meta flex items-center justify-between mt-auto pt-6 border-t border-white/10 relative z-10 w-full">
                         <div class="flex flex-col">
                             <span class="text-gold text-xs font-bold mb-1">ניסן תשפ"ד</span>
                             <span class="text-[10px] font-bold tracking-widest uppercase opacity-40">עיון מעמיק</span>
@@ -253,9 +305,9 @@
                     </div>
                 </a>
 
-                <!-- Card 2 (Choshen Mishpat) -->
+                <!-- Card 2 -->
                 <a href="#" target="_blank" class="torani-card rounded-2xl p-10 flex flex-col group h-full cursor-pointer" data-category="choshen-mishpat" style="animation-delay: 0.2s;">
-                    <div class="flex justify-between items-center mb-8 relative z-10 pt-2">
+                    <div class="article-badge flex justify-between items-center mb-8 relative z-10 pt-2">
                         <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-gold py-1.5 px-4 border border-gold/30 rounded-sm bg-black/50">
                             סימן ב' • חושן משפט
                         </span>
@@ -269,7 +321,7 @@
                         מעמדם של מטבעות קריפטוגרפיים, חתימות דיגיטליות וחוזים וירטואליים במשפט העברי. האם יש להם דין של 'כסף' או 'שטר' וכיצד מכריעים בסכסוכי מסחר בעידן המודרני.
                     </p>
                     
-                    <div class="flex items-center justify-between mt-auto pt-6 border-t border-white/10 relative z-10">
+                    <div class="card-meta flex items-center justify-between mt-auto pt-6 border-t border-white/10 relative z-10 w-full">
                         <div class="flex flex-col">
                             <span class="text-gold text-xs font-bold mb-1">טבת תשפ"ג</span>
                             <span class="text-[10px] font-bold tracking-widest uppercase opacity-40">פסק בוררות</span>
@@ -280,9 +332,9 @@
                     </div>
                 </a>
 
-                <!-- Card 3 (Thought / Hashkafa) -->
+                <!-- Card 3 -->
                 <a href="#" target="_blank" class="torani-card rounded-2xl p-10 flex flex-col group h-full cursor-pointer" data-category="thought" style="animation-delay: 0.3s;">
-                    <div class="flex justify-between items-center mb-8 relative z-10 pt-2">
+                    <div class="article-badge flex justify-between items-center mb-8 relative z-10 pt-2">
                         <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-white/70 py-1.5 px-4 border border-white/20 rounded-sm bg-white/5">
                             פרקי הגות ומחשבה
                         </span>
@@ -296,7 +348,7 @@
                         על השילוב העדין שבין חובת הייצוג והנאמנות ללקוח לבין השמירה על כבוד המשפחה היהודית ומניעת הרס מיותר. מאמר העוסק במידות ובאתיקה המקצועית של הטוען הרבני.
                     </p>
                     
-                    <div class="flex items-center justify-between mt-auto pt-6 border-t border-white/10 relative z-10">
+                    <div class="card-meta flex items-center justify-between mt-auto pt-6 border-t border-white/10 relative z-10 w-full">
                         <div class="flex flex-col">
                             <span class="text-gold text-xs font-bold mb-1">אלול תשפ"ג</span>
                             <span class="text-[10px] font-bold tracking-widest uppercase opacity-40">מאמר השקפה</span>
@@ -345,18 +397,48 @@
     </footer>
 
     <script>
-        // --- מערכת חיפוש וסינון חכמה ---
+        // --- מערכת חיפוש, סינון ותצוגה חכמה ---
         const filterBtns = document.querySelectorAll('.index-tab');
         const cards = document.querySelectorAll('.torani-card');
         const searchInput = document.getElementById('searchInput');
+        const clearSearchBtn = document.getElementById('clearSearch');
         const resultsCounter = document.getElementById('resultsCounter');
         const noResultsMsg = document.getElementById('noResultsMsg');
+        
+        const gridViewBtn = document.getElementById('gridViewBtn');
+        const listViewBtn = document.getElementById('listViewBtn');
+        const articlesGrid = document.getElementById('articlesGrid');
+
         let activeFilter = 'all';
 
-        // פונקציה ראשית לעדכון התצוגה (משלבת חיפוש מילולי + סינון קטגוריות)
+        // Toggle View Logic (Grid vs List)
+        if (gridViewBtn && listViewBtn) {
+            gridViewBtn.addEventListener('click', () => {
+                articlesGrid.classList.remove('list-view');
+                articlesGrid.classList.add('grid', 'md:grid-cols-2', 'lg:grid-cols-3');
+                gridViewBtn.classList.replace('text-white/30', 'text-gold');
+                listViewBtn.classList.replace('text-gold', 'text-white/30');
+            });
+
+            listViewBtn.addEventListener('click', () => {
+                articlesGrid.classList.add('list-view');
+                articlesGrid.classList.remove('grid', 'md:grid-cols-2', 'lg:grid-cols-3');
+                listViewBtn.classList.replace('text-white/30', 'text-gold');
+                gridViewBtn.classList.replace('text-gold', 'text-white/30');
+            });
+        }
+
+        // פונקציה ראשית לעדכון התצוגה
         function updateGallery() {
             const searchTerm = searchInput.value.toLowerCase().trim();
             let visibleCount = 0;
+
+            // Show/Hide Clear button
+            if (searchTerm.length > 0) {
+                clearSearchBtn.classList.remove('hidden');
+            } else {
+                clearSearchBtn.classList.add('hidden');
+            }
 
             cards.forEach(card => {
                 const title = card.querySelector('.article-title').innerText.toLowerCase();
@@ -364,29 +446,25 @@
                 const category = card.getAttribute('data-category');
                 const isPlaceholder = card.classList.contains('cursor-default');
 
-                // תנאי הצגה: האם עומד בסינון הקטגוריה? וגם האם עומד בחיפוש?
                 const matchesFilter = activeFilter === 'all' || category === activeFilter;
                 const matchesSearch = title.includes(searchTerm) || desc.includes(searchTerm);
-
-                // שומר על כרטיסיית הפלייסבולדר אם אין חיפוש ואין סינון ספציפי (או אם הסינון הוא ALL)
                 const showPlaceholder = isPlaceholder && searchTerm === '' && (activeFilter === 'all');
 
                 if (matchesFilter && (matchesSearch || showPlaceholder)) {
                     card.style.display = 'flex';
-                    // השהייה קטנה לאנימציית כניסה יפה
                     setTimeout(() => {
                         card.style.opacity = isPlaceholder ? '0.4' : '1';
                         card.style.transform = 'scale(1) translateY(0)';
                     }, 50);
-                    if(!isPlaceholder) visibleCount++; // לא סופר את הפלייסבולדר
+                    if(!isPlaceholder) visibleCount++;
                 } else {
                     card.style.opacity = '0';
                     card.style.transform = 'scale(0.95) translateY(10px)';
-                    setTimeout(() => card.style.display = 'none', 400); // מתאים לזמן הטרנזישן
+                    setTimeout(() => card.style.display = 'none', 400);
                 }
             });
 
-            // עדכון המונה הדינמי והודעת אין תוצאות
+            // עדכון המונה
             setTimeout(() => {
                 if(visibleCount > 0) {
                     resultsCounter.innerText = `מוצגים ${visibleCount} סימנים מתוך הגנזך`;
@@ -401,7 +479,7 @@
             }, 400);
         }
 
-        // האזנה ללחיצות על כפתורי הסינון
+        // האזנה לכפתורי סינון
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 filterBtns.forEach(b => b.classList.remove('active'));
@@ -411,8 +489,15 @@
             });
         });
 
-        // האזנה להקלדה בשורת החיפוש
+        // האזנה לחיפוש
         searchInput.addEventListener('input', updateGallery);
+        
+        // ניקוי חיפוש
+        clearSearchBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            updateGallery();
+            searchInput.focus();
+        });
     </script>
 </body>
 </html>
