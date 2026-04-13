@@ -1,0 +1,474 @@
+
+<!DOCTYPE html>
+<html lang="he" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>פסק דין: חלוקת זכויות פנסיוניות | הרב אלדר לוי</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- שילוב פונטים משופר: חיבו לכותרות מודרניות, פרנק ריל לטקסט תורני, אסיסטנט לממשק -->
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&family=Frank+Ruhl+Libre:wght@300;400;500;700;900&family=Heebo:wght@800;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: '#D4AF37',
+                        dark: '#0a0a0a',
+                        paper: '#111111'
+                    },
+                    fontFamily: { 
+                        serif: ['Frank Ruhl Libre', 'serif'],
+                        sans: ['Assistant', 'sans-serif'],
+                        heading: ['Heebo', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* משתני מערכת לקריאה נוחה */
+        :root {
+            --bg-color: #080808;
+            --text-color: #e2e2e2;
+            --heading-color: #ffffff;
+            --gold-accent: #D4AF37;
+            --gold-subtle: rgba(212, 175, 55, 0.12);
+            --surface-color: rgba(25, 25, 25, 0.6);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --base-font-size: 1.4rem;
+        }
+
+        /* מצב "קלף" / תורני בהיר */
+        body.theme-light {
+            --bg-color: #fbf9f4;
+            --text-color: #24221f;
+            --heading-color: #111111;
+            --gold-accent: #a37c17;
+            --gold-subtle: rgba(163, 124, 23, 0.1);
+            --surface-color: rgba(255, 255, 255, 0.8);
+            --border-color: rgba(0, 0, 0, 0.12);
+        }
+
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-color);
+            font-family: 'Assistant', sans-serif;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* טקסטורת רקע עדינה */
+        .paper-grain {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0.04; pointer-events: none; z-index: 0;
+            background-image: url('https://www.transparenttextures.com/patterns/parchment.png');
+        }
+        body.theme-light .paper-grain { opacity: 0.5; }
+
+        /* טיפוגרפיה מרכזית של הפסיקה */
+        .article-body {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: var(--base-font-size);
+            line-height: 1.95; /* מרווח אופטימלי לעין */
+            text-align: justify;
+            color: var(--text-color);
+            transition: font-size 0.3s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        .article-body p { margin-bottom: 2.2rem; }
+
+        .article-body h2 {
+            font-family: 'Assistant', sans-serif;
+            font-weight: 700;
+            font-size: calc(var(--base-font-size) + 0.8rem);
+            color: var(--gold-accent);
+            margin-top: 4.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            scroll-margin-top: 120px;
+        }
+
+        .article-body h2::after {
+            content: '';
+            flex-grow: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--gold-subtle), transparent);
+        }
+
+        /* עיטורים ותיבות */
+        .source-note {
+            float: left; width: 38%; margin-left: -18%; margin-right: 6%; margin-bottom: 20px;
+            font-family: 'Assistant', sans-serif; font-size: 0.95rem; line-height: 1.6;
+            color: var(--text-color); opacity: 0.85;
+            border-right: 3px solid var(--gold-accent); padding-right: 18px;
+            background: var(--surface-color); padding: 15px; border-radius: 4px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        @media (max-width: 1400px) {
+            .source-note { float: none; width: 100%; margin: 30px 0; border-right: 4px solid var(--gold-accent); }
+        }
+
+        .drop-cap::first-letter {
+            font-size: 5rem; font-weight: 900; color: var(--gold-accent);
+            float: right; line-height: 0.85; margin-left: 15px; margin-top: 8px;
+            font-family: 'Frank Ruhl Libre', serif; text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
+        }
+
+        /* חלונית כלים צפה */
+        .reading-controls {
+            position: fixed; left: 30px; top: 50%; transform: translateY(-50%);
+            display: flex; flex-direction: column; gap: 8px;
+            background: var(--surface-color); backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color); padding: 8px; border-radius: 30px;
+            z-index: 90; box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+
+        .control-btn {
+            width: 42px; height: 42px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-color); font-weight: 600; transition: all 0.2s; font-size: 1rem;
+        }
+        .control-btn:hover { background: var(--gold-subtle); color: var(--gold-accent); }
+
+        @media (max-width: 1400px) {
+            .reading-controls { top: auto; bottom: 100px; left: 50%; transform: translateX(-50%); flex-direction: row; border-radius: 50px; padding: 6px 12px; }
+        }
+
+        /* ------------------------------------------------------------------
+           CSS מתקדם להדפסה ולייצוא PDF רשמי!
+           כאן מתרחש הקסם שהופך את הדף למסמך משפטי טהור
+           ------------------------------------------------------------------ */
+        .print-only { display: none; }
+
+        @media print {
+            @page { size: A4; margin: 25mm 20mm; }
+            
+            body { 
+                background: white !important; 
+                color: black !important; 
+                font-family: 'Frank Ruhl Libre', serif !important; /* הכל הופך לפרנק ריל רשמי */
+            }
+            
+            .paper-grain, .no-print, header, footer, .interaction-bar, .visual-accents, .reading-controls, .toc-sidebar, #toast { 
+                display: none !important; 
+            }
+            
+            .print-only { display: block !important; }
+            
+            /* Letterhead (מכתבייה רשמית שמופיעה רק בהדפסה) */
+            .print-letterhead {
+                display: flex !important;
+                justify-content: space-between;
+                align-items: flex-start;
+                border-bottom: 2px solid black;
+                padding-bottom: 15px;
+                margin-bottom: 30px;
+                font-family: 'Assistant', sans-serif !important;
+            }
+            
+            .print-letterhead h3 { font-size: 16pt; font-weight: 800; margin: 0; color: black !important; }
+            .print-letterhead p { font-size: 11pt; margin: 0; color: #333 !important; }
+            
+            .reading-canvas { max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
+            
+            /* עיצוב גופנים ל-PDF */
+            .article-body { font-size: 12.5pt !important; line-height: 1.7 !important; color: black !important; }
+            h1 { font-family: 'Frank Ruhl Libre', serif !important; font-size: 22pt !important; color: black !important; text-align: center; font-weight: bold; margin: 20px 0 !important; }
+            h2 { font-family: 'Assistant', sans-serif !important; font-size: 15pt !important; color: black !important; border-bottom: 1px solid #000 !important; padding-bottom: 4px; margin-top: 25pt !important; page-break-after: avoid; }
+            p { page-break-inside: avoid; orphans: 3; widows: 3; color: black !important; margin-bottom: 12pt !important; text-align: justify !important; }
+            
+            /* עיצוב המקורות להדפסה */
+            .source-note { 
+                float: none; width: 100%; margin: 15px 0; 
+                border: 1px solid #888 !important; border-right: 4px solid black !important;
+                padding: 12px !important; font-size: 10.5pt !important; 
+                background: #fafafa !important; page-break-inside: avoid; 
+                font-family: 'Assistant', sans-serif !important;
+            }
+            
+            /* קופסת ההחלטה - מסגרת כפולה רשמית */
+            .verdict-box { 
+                border: 4px double black !important; 
+                padding: 20px !important; 
+                margin-top: 30px !important; 
+                border-radius: 0 !important; 
+                background: transparent !important; 
+                page-break-inside: avoid; 
+            }
+            .verdict-box h3 { color: black !important; border: none !important; font-size: 14pt !important; margin-bottom: 15px !important; text-decoration: underline; }
+            
+            .text-gold, .siman-badge { color: black !important; border-color: black !important; background: transparent !important; }
+            .signature-img { filter: none !important; opacity: 1 !important; height: 70px !important; margin-top: 30px !important; }
+            .drop-cap::first-letter { color: black !important; text-shadow: none !important; }
+        }
+    </style>
+</head>
+<body class="selection:bg-[#D4AF37]/30">
+
+    <div class="paper-grain"></div>
+
+    <!-- Letterhead for PDF Export ONLY -->
+    <div class="print-only print-letterhead">
+        <div>
+            <h3>הרב אלדר לוי</h3>
+            <p>טוען רבני ודיין מוסמך ידין-ידין<br>מומחה למשפט עברי ודיני משפחה</p>
+        </div>
+        <div style="text-align: left;">
+            <p><strong>בס"ד</strong></p>
+            <p>תאריך: כ"א אדר תשפ"ו<br>מאמר מספר: 126</p>
+        </div>
+    </div>
+
+    <!-- Top Header (Screen) -->
+    <header class="no-print fade-on-scroll fixed top-0 w-full z-50 py-4 px-6 md:px-8 flex justify-between items-center bg-[var(--bg-color)]/95 backdrop-blur-md transition-all duration-500 border-b border-[var(--border-color)]">
+        <a href="https://my-rabbinic-website.github.io/Vele_Hmshpatim" class="flex items-center gap-3 group">
+            <div class="w-9 h-9 rounded-full border border-[var(--border-color)] flex items-center justify-center text-[var(--gold-accent)] group-hover:bg-[var(--gold-subtle)] transition-all">
+                <i class="fas fa-chevron-right text-xs"></i>
+            </div>
+            <span class="text-[11px] font-bold uppercase tracking-[0.1em] text-[var(--text-color)] opacity-70">חזרה למאגר</span>
+        </a>
+        <div class="text-xs font-bold text-[var(--text-color)] opacity-50 tracking-widest uppercase">בס"ד</div>
+    </header>
+
+    <!-- Personal Reading Controls (Floating) -->
+    <div class="reading-controls no-print" title="כלים לנוחות קריאה">
+        <button onclick="changeFontSize(0.1)" class="control-btn" title="הגדל טקסט">A+</button>
+        <button onclick="changeFontSize(-0.1)" class="control-btn" title="הקטן טקסט">A-</button>
+        <div class="w-full h-px bg-[var(--border-color)] my-1 hidden lg:block"></div>
+        <div class="w-px h-full bg-[var(--border-color)] mx-1 block lg:hidden"></div>
+        <button onclick="toggleTheme()" class="control-btn" title="מצב קלף (קריאה נוחה) / מצב לילה">
+            <i class="fas fa-book-open"></i>
+        </button>
+    </div>
+
+    <main class="relative z-10 pt-28 pb-40 px-6">
+        
+        <div class="flex max-w-[1000px] mx-auto relative justify-center">
+
+            <!-- Main Reading Canvas -->
+            <article class="reading-canvas max-w-[760px] w-full">
+                
+                <!-- Article Header -->
+                <div class="mb-14 text-center no-print">
+                    <div class="inline-flex items-center gap-3 text-[11px] font-bold tracking-[0.2em] text-[var(--gold-accent)] uppercase mb-6 bg-[var(--gold-subtle)] px-4 py-1.5 rounded-full border border-[var(--gold-accent)]">
+                        <span>סימן א'</span>
+                        <span class="w-1.5 h-1.5 rounded-full bg-[var(--gold-accent)]"></span>
+                        <span>פסקי דין ובירורי הלכה</span>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-heading font-black text-[var(--heading-color)] leading-[1.1] mb-8">
+                        חלוקת זכויות פנסיוניות ואיזון משאבים בין בני זוג
+                    </h1>
+                    
+                    <div class="flex flex-wrap items-center justify-center gap-6 py-6 border-y border-[var(--border-color)] mt-8">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-feather-alt text-[var(--gold-accent)]"></i>
+                            <p class="text-sm font-bold text-[var(--heading-color)] tracking-wide">הרב אלדר לוי - דיין מוסמך</p>
+                        </div>
+                        <div class="w-1 h-1 rounded-full bg-[var(--border-color)]"></div>
+                        <div class="text-[var(--text-color)] opacity-60 text-sm font-bold">
+                            <i class="far fa-clock ml-1"></i> 12 דקות עיון
+                        </div>
+                    </div>
+                </div>
+
+                <!-- הכותרת להדפסה בלבד -->
+                <h1 class="print-only">פסק דין: חלוקת זכויות פנסיוניות ואיזון משאבים</h1>
+
+                <!-- Article Content -->
+                <div class="article-body">
+                    
+                    <p class="drop-cap text-[var(--heading-color)] font-medium mb-12">
+                        שאלה העומדת לפתחנו בתיק זה, עוסקת בתביעת האישה לקבלת מחצית מהזכויות שנצברו לטובת בעלה לשעבר במהלך שנות הנישואין. השאלה המרכזית היא האם "כושר השתכרות" נחשב כנכס בר איזון על פי גדרי ההלכה ודין תורה. בבירור זה נרד לעומקה של ההלכה וננתח את הדברים מיסודות השולחן ערוך ועד לפסיקת בתי הדין בימינו.
+                    </p>
+
+                    <h2>התשתית העובדתית</h2>
+                    <aside class="source-note">
+                        <strong>מקור הלכתי מרכזי:</strong><br>
+                        שו"ע אה"ע סימן צ', סעיף ז' - בדין נכסי מלוג ונכסי צאן ברזל. וכן ברמ"א חו"מ סימן ר"א.
+                    </aside>
+                    <p>
+                        הצדדים נישאו כדמו"י בשנת תש"ע, והתגרשו בשנת תשפ"ב. במהלך שנות הנישואין צבר הבעל מוניטין מקצועי רב בתחום ההייטק, בעוד האישה הקדישה את עתותיה לגידול הילדים ולתחזוקת הבית. האישה טוענת כי יש לראות במוניטין זה נכס משותף לכל דבר ועניין, הואיל ובלעדי עזרתה מבית, לא היה הבעל יכול להתפנות ולצבור את מומחיותו והונו. מנגד, הבעל טוען כי המוניטין הינו קניין אישי שאינו נתפס ברכוש משותף על פי דין תורה.
+                    </p>
+                    
+                    <p>
+                        סוגיה זו חוזרת ונשנית לפתחנו חדשים לבקרים, עת נדרש בית הדין להכריע בין דיני הקניין הקלאסיים של המשפט העברי, לבין מושגים מודרניים של 'כושר השתכרות' ו'נכסי קריירה'.
+                    </p>
+
+                    <div class="my-14 py-10 px-10 border-r-4 border-[var(--gold-accent)] bg-[var(--gold-subtle)] relative">
+                        <i class="fas fa-quote-left absolute top-4 left-6 text-[var(--gold-accent)] opacity-20 text-4xl no-print"></i>
+                        <p class="text-[calc(var(--base-font-size)-0.1rem)] font-serif text-[var(--heading-color)] leading-relaxed italic relative z-10 mb-0 font-medium">
+                            "וכבר פסקו גדולי האחרונים, שכל מה שהרוויח אחד מהצדדים בעמל כפיו בזמן שהיו שרויים בצוותא, יש לראות בו שותפות גמורה, הן מצד מנהג המדינה והן מצד דינא דמלכותא."
+                        </p>
+                        <div class="mt-6 text-sm font-bold text-[var(--gold-accent)] uppercase text-left">— פסיקת ביה"ד הגדול</div>
+                    </div>
+
+                    <h2>בירור דין תקנת הקהל</h2>
+                    <p>
+                        יש לדון בזה מכמה היבטים. ראשית, מצד "תקנת הקהל" ומנהג המדינה. בשו"ע חו"מ סימן ר"א נפסק שסיטומתא קניא, היינו שהמנהג יוצר תוקף הלכתי לקניין. מאחר שבמדינת ישראל נהוג "חוק יחסי ממון", הרי שהצדדים נישאו על דעת כן, וכל תנאי שבממון קיים. עלינו להבין כי כאשר בני זוג נכנסים בברית הנישואין במקום שבו החוק המקומי ברור וידוע, הרי זה כאילו התנו ביניהם מפורשות שינהגו לפי כללים אלו, אלא אם התנו אחרת בהסכם ממון תקף (מה שלא נעשה במקרה דנן).
+                    </p>
+
+                    <h2>מנהג המדינה באבן העזר</h2>
+                    <aside class="source-note">
+                        <strong>הרחבה בנושא:</strong><br>
+                        עיינו בספר 'מנחת אשר' להגאון רבי אשר וייס שליט"א (חלק ג'), שדן באריכות בגדרי דינא דמלכותא דינא לענייני ממונות.
+                    </aside>
+                    <p>
+                        אולם, האם חוק יחסי ממון כולל בתוכו גם 'כושר השתכרות'? כאן אנו נכנסים לעובי הקורה. בספר 'מנחת אשר' כותב כי אף שמעיקר הדין אין הנכסים המופשטים שייכים לשני בני הזוג, הרי שמנהג המדינה תקף מדין תנאי שבממון. עם זאת, בית הדין הרבני הגדול קבע במספר פסקי דין כי יש להבחין הבחנה דקה בין קופת גמל או קרן פנסיה קיימת – שהם נכסים מוחשיים עתידיים, לבין 'מוניטין אישי', שהוא בגדר ציפייה לעתיד שתלויה בעמלו של האדם ואיננה מובטחת.
+                    </p>
+                    <p>
+                        לאור האמור, אין לנו אלא לפסוק לפי כללי היושר ההלכתיים (הידועים כ'לפנים משורת הדין' ו'כופין על מידת סדום' לעיתים), המחייבים את חלוקת הפנסיה בשווה, אך לא מתירים ירידה לנכסים עתידיים ובלתי מוחשיים של מוניטין גרידא, במקום שבו לא הוכח קשר ישיר ובלעדי לתמיכת בת הזוג באופן חריג.
+                    </p>
+
+                    <!-- Ruling Box -->
+                    <div class="verdict-box bg-[var(--surface-color)] border border-[var(--border-color)] rounded-2xl p-8 md:p-12 mt-16">
+                        <div class="flex items-center gap-4 mb-8 no-print">
+                            <div class="h-[1px] flex-grow bg-[var(--border-color)]"></div>
+                            <h3 class="text-[var(--gold-accent)] font-bold uppercase tracking-[0.2em] text-lg text-center m-0">פסק הדין והחלטה למעשה</h3>
+                            <div class="h-[1px] flex-grow bg-[var(--border-color)]"></div>
+                        </div>
+                        <h3 class="print-only text-center font-bold text-xl mb-6 underline">פסק הדין והחלטה למעשה</h3>
+                        
+                        <div class="space-y-8">
+                            <div class="flex gap-4 items-start">
+                                <span class="text-[var(--gold-accent)] font-black font-serif text-2xl mt-1">א.</span>
+                                <p class="text-[var(--heading-color)] leading-relaxed m-0 font-medium">הזכויות הפנסיוניות, קופות הגמל וקרנות ההשתלמות שנצברו על שם שני הצדדים מיום הנישואין ועד למועד הקרע, יחולקו בשווה בין הצדדים, כנהוג לפי מנהג המדינה ותקנת הקהל.</p>
+                            </div>
+                            <div class="flex gap-4 items-start">
+                                <span class="text-[var(--gold-accent)] font-black font-serif text-2xl mt-1">ב.</span>
+                                <p class="text-[var(--heading-color)] leading-relaxed m-0 font-medium">תביעת האישה לחלוקת 'מוניטין אישי' או 'כושר השתכרות' של הבעל – נדחית. אין מקום לאיזון בגין נכס מופשט זה בנסיבות המקרה דנן, מן הטעמים שפורטו לעיל באריכות.</p>
+                            </div>
+                            <div class="flex gap-4 items-start">
+                                <span class="text-[var(--gold-accent)] font-black font-serif text-2xl mt-1">ג.</span>
+                                <p class="text-[var(--heading-color)] leading-relaxed m-0 font-medium">על הצדדים, באמצעות באי כוחם, להגיש פסיקתא סופית מתאימה ולמנות אקטואר מוסכם לחתימת הדיין תוך 30 ימים.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer Signature -->
+                    <div class="mt-20 pt-16 border-t border-[var(--border-color)] flex flex-col items-center text-center page-break-avoid">
+                        <div class="w-20 h-20 mb-6 rounded-full border border-[var(--gold-accent)] flex items-center justify-center relative opacity-80 no-print">
+                            <i class="fas fa-stamp text-[var(--gold-accent)] opacity-30 text-4xl absolute"></i>
+                            <span class="text-[8px] font-bold text-[var(--gold-accent)] uppercase tracking-tighter relative z-10 leading-none">נאמן למקור<br>ביה"ד</span>
+                        </div>
+                        <div class="text-sm uppercase tracking-[0.2em] text-[var(--text-color)] opacity-60 mb-2 font-bold">נכתב ונחתם פה עיה"ק נתיבות ת"ו</div>
+                        <div class="font-serif text-3xl md:text-4xl text-[var(--heading-color)] font-bold mb-2">הרב אלדר לוי</div>
+                        <p class="text-base text-[var(--gold-accent)] font-bold tracking-widest uppercase">דיין וטוען רבני מוסמך</p>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <!-- Floating Bottom Action Bar -->
+        <div class="interaction-bar fixed bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-1 sm:gap-2 bg-black/90 backdrop-blur-xl border border-white/10 px-4 sm:px-6 py-2.5 rounded-full z-50 shadow-[0_10px_30px_rgba(0,0,0,0.6)] transition-all duration-500 fade-on-scroll no-print w-max text-white">
+            <button onclick="downloadPDF()" class="flex items-center gap-2 text-xs sm:text-sm font-bold text-gray-300 hover:text-[#D4AF37] transition-colors px-3 py-2 rounded-full hover:bg-white/5" title="שמור והדפס פסק דין">
+                <i class="fas fa-file-pdf text-base"></i>
+                <span class="hidden sm:inline">PDF</span>
+            </button>
+            <button onclick="shareArticle()" class="flex items-center gap-2 text-xs sm:text-sm font-bold text-gray-300 hover:text-[#D4AF37] transition-colors px-3 py-2 rounded-full hover:bg-white/5" title="שתף">
+                <i class="fas fa-share-nodes text-base"></i>
+                <span class="hidden sm:inline">שיתוף</span>
+            </button>
+            <div class="w-px h-5 bg-white/20 mx-1 sm:mx-2"></div>
+            <a href="https://wa.me/972528219928" class="bg-[#D4AF37] text-black px-6 sm:px-8 py-2.5 rounded-full text-xs font-black uppercase tracking-widest hover:scale-105 transition-transform shadow-[0_0_15px_rgba(212,175,55,0.3)]">
+                לייעוץ הלכתי
+            </a>
+        </div>
+
+    </main>
+
+    <!-- Visual Accents (Hidden in Light Mode) -->
+    <div class="visual-accents fixed top-0 left-0 w-full h-full pointer-events-none z-0">
+        <div class="absolute top-0 right-0 w-[40vw] h-[40vw] bg-[var(--gold-accent)] blur-[150px] rounded-full opacity-10"></div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="no-print">הודעה</div>
+
+    <script>
+        // --- Reading Controls Logic ---
+        let currentFontSize = 1.4; // גודל התחלתי ב-rem
+        
+        function changeFontSize(change) {
+            currentFontSize += change;
+            if(currentFontSize < 1.1) currentFontSize = 1.1;
+            if(currentFontSize > 2.0) currentFontSize = 2.0;
+            document.documentElement.style.setProperty('--base-font-size', `${currentFontSize}rem`);
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('theme-light');
+            const isLight = document.body.classList.contains('theme-light');
+            showToast(isLight ? "מצב קלף הופעל לקריאה ממושכת" : "מצב לילה הופעל");
+        }
+
+        // --- Focus Mode & Scroll Logic ---
+        window.addEventListener('scroll', () => {
+            const winScroll = document.documentElement.scrollTop;
+            
+            // עמעום הכפתורים בזמן גלילה
+            if (winScroll > 100) {
+                document.querySelector('.interaction-bar').style.opacity = '0.3';
+                document.querySelector('.reading-controls').style.opacity = '0.3';
+            } else {
+                document.querySelector('.interaction-bar').style.opacity = '1';
+                document.querySelector('.reading-controls').style.opacity = '1';
+            }
+
+            document.querySelector('.interaction-bar').addEventListener('mouseenter', function() { this.style.opacity = '1'; });
+            document.querySelector('.reading-controls').addEventListener('mouseenter', function() { this.style.opacity = '1'; });
+        });
+
+        // --- Toast Notification ---
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.innerText = message;
+            toast.className = "show no-print";
+            setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 4000);
+        }
+
+        // --- Download PDF Logic (Super Clean) ---
+        function downloadPDF() {
+            // החלפה זמנית למצב בהיר כדי להבטיח שהדפדפן מתמודד היטב עם ההדפסה
+            const wasDark = !document.body.classList.contains('theme-light');
+            document.body.classList.add('theme-light'); 
+            
+            showToast("מכין מסמך רשמי להורדה. בחר 'שמירה כ-PDF' (Save as PDF)");
+            
+            setTimeout(() => {
+                window.print();
+                // החזרת המצב הקודם אחרי ההדפסה
+                if(wasDark) document.body.classList.remove('theme-light');
+            }, 1200);
+        }
+
+        // --- Share API Logic ---
+        async function shareArticle() {
+            const shareData = {
+                title: 'פסק דין: חלוקת זכויות פנסיוניות | הרב אלדר לוי',
+                text: 'קראו את פסק הדין המלא מאת הרב אלדר לוי - דיין מוסמך וטוען רבני.',
+                url: window.location.href
+            };
+
+            try {
+                if (navigator.share) {
+                    await navigator.share(shareData);
+                } else {
+                    await navigator.clipboard.writeText(window.location.href);
+                    showToast('הקישור הועתק בהצלחה לשיתוף!');
+                }
+            } catch (err) {
+                console.error('Error sharing:', err);
+            }
+        }
+    </script>
+</body>
+</html>
